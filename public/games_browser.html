@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset="utf-8">
+        <title>UNode - Lobby</title>
+    </head>
+    <body>
+        <script src="js/client_utils.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/image-picker.min.js"></script>
+
+        <script data-main="js/game_browser.js" src="js/require.js"></script>
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/image-picker.css" rel="stylesheet">
+        <link href="css/game_browser.css" rel="stylesheet">
+
+        <nav id="main-navbar" class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">UNode</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <!-- <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> -->
+                    </li>
+                </ul>
+                <div id="profile-container" class="navbar-brand d-inline-block">
+                    <!-- <img src="/avatars/1" width="45" height="45" class="img-thumbnail mr-2"/>
+                    Bryan
+                    <small class="text-muted">#jafdoasf</small> -->
+                </div>
+                <span>
+                    <div class="d-inline-block">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create a game</button>
+                        <button type="button" class="btn btn-danger">Logout</button>
+                    </div>
+                </span>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a Game</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <form class="form-horizontal" action="/api/create_game" id="create-game-form" method="post">
+                        <div id="game-parameters" class="modal-body">
+
+                            <div class="form-group">
+                                <label for="ruleset-selector">Ruleset</label>
+                                    <select name="ruleset" class="form-control" id="ruleset-selector">
+                                    </select>
+                            </div>
+
+                            <div class="form-group" id="ruleset-parameters-block">
+                                <!-- <label for="ruleset-selector">lbshljoiasfjoi</label> -->
+                            </div>
+                            
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                            <input class="btn btn-primary" type="submit" value="Create">
+                            <!-- <button type="button" class="btn btn-primary">Create</button> -->
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="wsLostConnectionModal" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <strong>Connection Lost to Server</strong>
+                    </div>
+                    <div class="modal-body bg-light">
+                        Reconnecting...
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-sm-8" style="float: none; margin: 0 auto;">
+
+                <!-- <div class="d-flex">
+                    <h1 class="p-2 display-3">Game Lobby</h1>
+                    <div class="ml-auto p-2">
+                    <div class="text-center mt-3">
+                            <img src="/avatars/1" class="mx-auto img-thumbnail" style="width: 60px; height: 60px; display: block;">
+                            <label style="display: block;">anjinjiojoiafjioasjfjasiodfjoig</label>
+                            <a href="/">Logout</a>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <!-- <ul class="list-group">
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+
+
+                    <li class="list-group-item list-group-item-primary">A simple primary list group item</li>
+                    <li class="list-group-item list-group-item-secondary">A simple secondary list group item</li>
+                    <li class="list-group-item list-group-item-success">A simple success list group item</li>
+                    <li class="list-group-item list-group-item-danger">A simple danger list group item</li>
+                    <li class="list-group-item list-group-item-warning">A simple warning list group item</li>
+                    <li class="list-group-item list-group-item-info">A simple info list group item</li>
+                    <li class="list-group-item list-group-item-light">A simple light list group item</li>
+                    <li class="list-group-item list-group-item-dark">A simple dark list group item</li>
+                </ul> -->
+                <div id="join_games_list">
+                    <h4>Join a game</h4>
+                    <p id="no_pending_games_lbl" class="text-muted">No pending games.</p>
+
+                    <ul class="list-group" id="pendingGamesContainer">
+
+                        <li id="pending-game-abcd-efgh" class="list-group-item" data-toggle="collapse" data-target="#pending-game-abcd-efgh-dropdown">
+                            <div class="d-flex w-100 justify-content-between flex-wrap align-items-center">
+                                <div class="mr-auto">
+                                    <h5 class="d-inline">Classic</h5>
+                                    <span class="text-muted" style="margin-left: 1em">4:10 to go</span>    
+                                </div>
+                                
+                                <!-- <span>Number of Players: 10</span>
+                                <span>Number of Rounds: 3</span> -->
+                                <!-- <div class="d-flex justify-content-end flex-wrap"> -->
+                                <img class='p-2 rounded pending-game-avatar pending-game-host-avatar border-dark'src="/avatars/4">
+                                <img class='p-2 rounded pending-game-avatar border-dark'src="/avatars/4">
+                                <img class='p-2 rounded pending-game-avatar border-dark'src="/avatars/4">
+                                <img class='p-2 rounded pending-game-avatar border-dark'src="/avatars/4">
+                                <img class='p-2 rounded pending-game-avatar border-dark'src="/avatars/4">
+                                <img class='p-2 rounded pending-game-avatar border-dark'src="/avatars/4">
+                            </div>
+                            
+                        </li>
+
+                        <div id="pending-game-abcd-efgh-dropdown" class="bg-light list-group-item collapse">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <!-- <p>Number of Players: 10</p>
+                                <hr>
+                                <p>Number of Rounds: 19</p> -->
+                                <div>
+                                    <span>Number of Players: 10</span>
+                                    <hr>
+                                    <span>Number of Rounds: 19</span>
+                                </div>
+                                <button type="button" class="btn btn-primary ml-auto">Join</button>
+                            </div>
+                        </div>
+                        
+                        
+                      
+                    </ul> 
+                </div>
+                <br>
+                <div id="spectate_games_list">
+                    <h4>Be a spectator</h4>
+                    <p class="text-muted">There are no ongoing public games.</p>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

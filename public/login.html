@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset="utf-8">
+        <title>UNode</title>
+    </head>
+    <body>
+        <script src="js/client_utils.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/image-picker.min.js"></script>
+        <!-- <script src="js/socket.io.js"></script> -->
+        <script src="js/login_page.js"></script>
+        
+
+        <!-- <script>
+            // var socket = io('http://localhost:23456');
+            var socket = io.connect(window.location.hostname);
+
+            socket.on('news', function (data) {
+                var div = document.getElementById("news-list");
+                console.log("Rendering news : ",data);
+
+                for(var i = 0;i < data.length;i++){
+                    var newsItem = data[i];
+                    div.innerHTML += "<h3>" + newsItem.title + ' <small>'+ newsItem.date + "</small></h3><br>";
+                }
+
+                socket.emit('my other event', { my: 'data' });
+            });
+        </script> -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/image-picker.css" rel="stylesheet">
+        <link href="css/login-page.css" rel="stylesheet">
+
+        <div class="container">
+            <!-- <div class="row justify-content-md-center"> -->
+                <!-- <div class="col-8"> -->
+                    <h1 class="display-3">UNode</h1>
+
+                    <form class="form-horizontal" action="/api/login" id="create-form" method="post">
+                        <div class="modal-body">
+                            <div class="row justify-content-md-center">
+                                <div class="col-lg-4 justify-content-md-center">
+
+
+                                    <div class="form-group">
+                                        <label class="control-label">Name</label>
+                                        <div>
+                                            <input class="form-control" maxlength="20" placeholder="Name" required type="text" name="name">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label">Tripcode</label>
+                                        <div>
+                                            <input class="form-control" maxlength="8" placeholder="Tripcode" type="text" name="tripcode">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="avatar-picker-container" class="col-lg-4 justify-content-md-center">
+                                    <label class="control-label">Avatar</label>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <input class="btn btn-primary" type="submit" value="Enter">
+                                <!-- <button id="enter-btn" class="btn btn-primary" type="button">Enter</button> -->
+                            </div>
+                            
+                        </div>
+
+                    </form>
+                <!-- </div> -->
+            <!-- </div> -->
+        </div>
+
+    </body>
+</html>

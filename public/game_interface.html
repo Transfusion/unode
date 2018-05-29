@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset="utf-8">
+        <title>UNode - Game</title>
+    </head>
+    <body>
+
+        <script src="js/client_utils.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/game_lobby_render_modal.js"></script>
+
+        <script src="js/phaser.min.js"></script>
+
+        <script data-main="js/game_interface.js" src="js/require.js"></script>
+
+        <!-- <script src="js/game_uno.js"></script> -->
+
+        <link href="css/game_interface.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+        <nav id="main-navbar" class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">UNode</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    </li>
+                </ul>
+                <div id="profile-container" class="navbar-brand d-inline-block">
+
+                </div>
+                <span>
+                    <div class="d-inline-block">
+                        <button type="button" class="btn btn-danger">Logout</button>
+                    </div>
+                </span>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="lobbyModal" tabindex="-1" role="dialog" aria-labelledby="lobbyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="lobbyModalLabel">Game Lobby</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> -->
+                        <h4 class="text-warning bg-dark" id="pendingGameTimeInd">09:50</h4>
+                        <div class=col-6-md>
+
+                            <div class="input-group">
+                                <input class="form-control" id="gameDirectLink" type="text" value="asdf" disabled="disabled">
+                                <button id="leavePendingGameBtn" type="button" class="btn btn-danger">Leave</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <form class="form-horizontal" id="ruleset-form" method="post">
+                                <div id="game-parameters" class="modal-body">
+
+                                    <div class="form-group">
+                                        <label for="ruleset-selector">Ruleset</label>
+                                            <select name="ruleset" class="form-control" id="ruleset-selector">
+                                            </select>
+                                    </div>
+
+                                    <div class="form-group" id="ruleset-parameters-block">
+                                        <!-- <label for="ruleset-selector">lbshljoiasfjoi</label> -->
+                                    </div>
+                                    
+
+
+                                </div>
+                                
+                            </form>
+                            <div class="modal-footer">
+                                <input id='saveRulesetBtn' class="btn btn-primary" type="submit" form="ruleset-form" disabled value="Save">
+                                <!-- <button type="button" class="btn btn-primary">Create</button> -->
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div id="players-container">
+
+                                <!-- <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/1" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">tranon<small class="text-muted">#va7Nh</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/1" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/2" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/3" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/4" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/1" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div>
+
+                                <div class="player-thumbnail d-inline-block">
+
+                                    <img src="/avatars/1" alt="Test" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption">
+                                            <p class="text-center wordwrap">transfusion<small class="text-muted">#va7NhDo5YI</small></p>
+                                        </div>
+                                    </img>
+                                </div> -->
+
+                                <!-- <div class="player-thumbnail">
+
+                                    <img src="/avatars/1" alt="Test" width="100px" height="100px" class="img-thumbnail player-thumbnail thumbnail-game-host img-responsive">
+                                        <div class="caption" text-align="center">
+                                            abang
+                                            <small class="text-muted">#va7NhDo5YI</small>
+                                        </div>
+                                    </img>
+                                </div> -->
+
+                              
+                            </div>
+                            
+                            <div class="modal-footer align-bottom">
+                                <button id='startGameBtn' class="btn btn-primary" disabled>Start</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="container">
+            <!-- <h1>Test</h1> -->
+            <div id="gameDiv">
+            </div>
+            
+            <!-- <div class="panel panel-default">
+                <div class="panel-body">A Basic Panel</div>
+            </div> -->
+        
+        </div>
+
+        
+    </body>
+
+</html>

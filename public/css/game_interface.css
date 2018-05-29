@@ -1,0 +1,39 @@
+#players-container{
+	margin-top: 1em;
+	width: 100%;
+
+}
+
+.player-thumbnail{
+	width: 70px;
+	height: 70px !important;
+}
+
+/*todo: sm breakpoint, rewrite in SASS mixin*/
+@media (max-width: 991.98px) {
+	#players-container{
+		margin-left: 1em;
+		margin-right: 1em;
+	}
+}
+
+.wordwrap { 
+	white-space: pre-wrap;      /* CSS3 */   
+	white-space: -moz-pre-wrap; /* Firefox */    
+	white-space: -pre-wrap;     /* Opera <7 */   
+	white-space: -o-pre-wrap;   /* Opera 7 */    
+	word-wrap: break-word;      /* IE */
+}
+
+.thumbnail-game-host{
+	background-color: #f0ad4e !important;
+}
+
+#gameDirectLink{
+	margin-right: 0.5em;
+}
+
+#pendingGameTimeInd {
+	padding: 0.2em 0.4em 0.2em 0.4em;
+	border-radius: 5px;
+}

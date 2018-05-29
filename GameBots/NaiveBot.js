@@ -1,0 +1,1 @@
+// The simplest possible bot: out of all the valid moves picks a random one
