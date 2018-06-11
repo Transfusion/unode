@@ -13,15 +13,17 @@ var GameManager = require('../managers/GameManager');
 var createGameController = require('../Controllers/create_game_controller');
 
 
-router.get('/pending_games', function(req, res){
+/*router.get('/pending_games', function(req, res){
     
-})
+})*/
 
 router.post('/login', function(req, res){
     // console.log(req.body);
     // console.log(req.session);
     var userObj = UserManager.addUser(req.body.name, tripcode(req.body.tripcode), req.body.avatar);
     req.session.isLoggedIn = true;
+
+    
     // TODO: could result in XSS
     // req.session.playerInfo = {};
     // req.session.playerInfo.name = req.body.name;
@@ -40,25 +42,12 @@ router.post('/logout', function(req, res){
 
 router.get('/user_info', function(req, res){
 
-    function _populatePendingGameFields(userObj){
-        if (userObj['pendingGameId']){
-            userObj['pending_game_am_host'] = 
-                (GameManager.getPendingGame(userObj['pendingGameId']).hostUser == userObj.id);
-        }        
-        console.log(userObj);
-    }
-
     if (!req.session.isLoggedIn){
         res.send("Not logged in");
     }
     else {
         // res.setHeader('Content-Type', 'application/json');
         var userObj = UserManager.getUser(req.session.user);
-        _populatePendingGameFields(userObj);
-
-
-        // res.send(JSON.stringify(req.session.user));
-        // console.log(req.session.user)
         res.json(userObj);
     }
 });

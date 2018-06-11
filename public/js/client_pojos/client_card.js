@@ -62,10 +62,11 @@ function getCardSpriteName(type, color=null, number=null){
     }
 
     if (type == CARD_TYPES.DRAW_4){
-        name += 'wild_pick_four_large';
+        name = 'wild_pick_four_large';
     }
+
     if (type == CARD_TYPES.WILD){
-        name += 'wild_colora_changer_large';
+        name = 'wild_color_changer_large';
     }
 
     return name;

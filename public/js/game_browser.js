@@ -137,6 +137,8 @@ require(['game_browser_wsclient'], function(game_browser_wsclient){
         getUserInfo().then(function(result){
             window.userInfo = result;
             initProfileWidget($('#profile-container'));
+        }).catch(e => {
+            console.log(e);
         })
 
         getRulesetInfo().then(function(result){

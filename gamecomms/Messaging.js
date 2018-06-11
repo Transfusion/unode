@@ -141,7 +141,70 @@ var OutgoingMessages = {
 		var msg = {};
 		msg.type = OUTGOING_MESSAGE_TYPE.HEARTBEAT_CLIENT_PONG;
 		return msg;
+	},
+
+	pendingGameTimeoutMessage: function(pendingGame){
+		return {
+			type: OUTGOING_MESSAGE_TYPE.PENDING_GAME_TIMEOUT,
+			timeout: pendingGame.timeout,
+			pendingGameId: pendingGame.id
+		}
+	},
+
+	gameStartMessage: function(game){
+		return {
+			type: OUTGOING_MESSAGE_TYPE.GAME_START,
+			gameId: game.id
+		}
+	},
+
+	// from the perspective of a user
+	userGameStateMessage: function(game, User){
+		var id = User.gamePlayer.id;
+
+		var msg = {
+			type: OUTGOING_MESSAGE_TYPE.USER_GAME_STATE
+		};
+		msg.myHand = User.gamePlayer.hand;
+		msg.lastPlayedCard = game.pile.topCard();
+
+		/*msg.playersAndCards = {};
+
+		for (let [id, gameUser] of Object.entries(game.users)){
+			msg.playersAndCards[gameUser.gamePlayer.id] = gameUser.gamePlayer.hand.numberOfCards;
+		}*/
+
+		
+
+		msg.currentTurnPlayer = game.currentTurnPlayer;
+		msg.turnTimeout = game.turnTimeout;
+		msg.round = game.round;
+		msg.score = User.gamePlayer.score;
+		return msg;
+	},
+
+	unoMessage: function(game, User){
+		return {
+			type: OUTGOING_MESSAGE_TYPE.UNO,
+			gameId: game.id,
+			playerId: User.gamePlayer.id,
+
+		}
+	},
+
+	globalGameStateMessage: function(game){
+
 	}
+
+	/*gameStateMessage: function(game){
+		return {
+			type: OUTGOING_MESSAGE_TYPE.GAME_STATE,
+			gameId: game.id,
+
+			cardsInDeck: 
+
+		}
+	}*/
 }
 
 // module.exports.OUTGOING_MESSAGE_TYPE = OUTGOING_MESSAGE_TYPE;

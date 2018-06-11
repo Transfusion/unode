@@ -96,7 +96,13 @@ class WSClient extends CommsClientInterface {
 		var msg = JSON.stringify(message);
 		/*console.log('sent');
 		console.log(msg)*/
-		this.socket.send(msg);
+		try {
+			this.socket.send(msg);	
+		}
+		catch (error){
+			logger.error(error);
+			// this.sendMessage(message);
+		}
 	}
 
 }

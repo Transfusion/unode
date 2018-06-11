@@ -89,6 +89,12 @@ function getRulesetInfo(){
     })
 }
 
+function getAvatarsInfo(){
+    return new Promise(function(resolve, reject){
+        $.get(getAvatarsURL()).done(resolve).fail(reject);
+    })
+}
+
 var PARAMETER_TYPE = {
     INT_PARAM: 1,
     FLOAT_PARAM: 2,
@@ -132,7 +138,11 @@ if (!Object.entries){
     return resArray;
     };
 }
-    
+
+function definedAndNotNull(obj){
+    return ( typeof obj !== 'undefined' && obj );
+}
+
 function createErrorMessageModal(heading="error", error_msg){
 
 }

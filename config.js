@@ -10,6 +10,7 @@ config.app.card_sprites_dir = config.app.sprites_dir+'/cards';
 
 config.game = {};
 config.game.pendingTimeout = 600; // in seconds
+config.game.turnTimeout = 60;
 
 config.app.jwt_shared_secret = "shared_secret";
 

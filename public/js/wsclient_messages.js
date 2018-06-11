@@ -17,8 +17,16 @@ var OUTGOING_MESSAGE_TYPE = {
 
     HEARTBEAT_CLIENT_PONG: 'heartbeat_client_pong',
 
-    PENDING_GAME_READY_START_STATUS: 'pending_game_ready_start_status'
-}
+    PENDING_GAME_READY_START_STATUS: 'pending_game_ready_start_status',
+
+    PENDING_GAME_TIMEOUT: 'pending_game_timeout',
+
+
+    GAME_START: 'game_start',
+    USER_GAME_STATE: 'user_game_state',
+    UNO: 'uno'
+};
+
 
 var ClientMessages = {
     getPendingGamesList: function(syncId=undefined){

@@ -49,11 +49,18 @@ class CommsManager {
 
 	// methods with transport-independent implementations are below
 	broadcastGameMessage(msg, game){
+		// let stringifiedMessage = JSON.stringify(msg);
+		/*Object.entries(game.users).forEach(function([playerId, userObj]){
+			userObj.commsClient.sendMessage(stringifiedMessage);
+		});*/
 
+		for (let [id, userObj] of Object.entries(game.users)){
+			userObj.commsClient.sendMessage(msg);
+		}
 	}
 
 	broadcastPendingGameMessage(msg, pendingGame){
-		let stringifiedMessage = JSON.stringify(msg);
+		// let stringifiedMessage = JSON.stringify(msg);
 		pendingGame.pendingUsers.forEach(function(pendingUser){
 			pendingUser.commsClient.sendMessage(msg);
 		});
@@ -190,6 +197,7 @@ class CommsManager {
 				msg.commsClient.sendMessage(
 					new messaging.OutgoingMessages.heartbeatClientPongMessage());
 				break;
+
 		}
 	}
 

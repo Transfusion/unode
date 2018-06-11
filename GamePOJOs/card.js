@@ -46,6 +46,14 @@ class Card {
         }
     }
 
+    toJSON(){
+        return {
+            type: this.type,
+            color: this.color,
+            number: this.number
+        };
+    }
+
 }
 
 class Deck {
@@ -138,8 +146,31 @@ class RegularDeck {
 class Pile {
     constructor(){
         if (new.target === Pile){
-            throw new TypeError("Pile is an abstact class.")
+            throw new TypeError("Pile is an abstact class.");
         }
+    }
+
+    topCard(){
+        throw new TypeError("Pile is an abstact class.");
+    }
+
+    placeCard(card){
+        throw new TypeError("Pile is an abstact class.");
+    }
+}
+
+class RegularPile extends Pile {
+    constructor(){
+        super();
+        this.cards = [];
+    }
+
+    topCard(){
+        return this.cards[0];
+    }
+
+    placeCard(card){
+        this.cards.push(card);
     }
 }
 
@@ -148,3 +179,5 @@ module.exports.CARD_NUMBERS = CARD_NUMBERS;
 module.exports.CARD_TYPES = CARD_TYPES;
 module.exports.CARD_COLORS = CARD_COLORS;
 module.exports.RegularDeck = RegularDeck;
+module.exports.RegularPile = RegularPile;
+

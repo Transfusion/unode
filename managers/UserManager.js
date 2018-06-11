@@ -2,6 +2,8 @@ var uuid = require('uuid/v1');
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 
+var GameManager = require('./GameManager');
+
 class User {
 	constructor(username, tripcode, id, avatar){
 		this.username = username;
@@ -9,7 +11,6 @@ class User {
 		this.id = id;
 		this.avatar = avatar;
 
-		// 
 		this.pendingGameId = null;
 
 		// gamePlayer is the object defined in player.js
@@ -43,10 +44,15 @@ class User {
 			'tripcode': this.tripcode,
 			'avatar': this.avatar,
 			'pendingGameId': this.pendingGameId,
-			'gamePlayer': !this.gamePlayer ? null : JSON.stringify(this.gamePlayer),
-			'pendingGameAmHost': !this.pending_game_am_host ? this.pending_game_am_host : undefined
+			'gamePlayer': !this.gamePlayer ? null : this.gamePlayer
+			// 'pendingGameAmHost': !this.pending_game_am_host ? this.pending_game_am_host : undefined
 		}
-		return 
+
+		/*if (this.inPendingGame){
+			jsonRep['pendingGameAmHost'] = (GameManager.getPendingGame(this.pendingGameId).hostUser.id == this.id)
+		}*/
+		console.log(jsonRep);
+		return jsonRep;
 	}
 }
 
@@ -63,11 +69,11 @@ class UserManager {
 	}
 
 	addUser(username, tripcode, avatar){
-		// for (var user in Object.entries(this.users)){
-		// 	if (username === user.username && tripcode === user.tripcode){
-		// 		return false;
-		// 	}
-		// }
+		/*for (var user in Object.entries(this.users)){
+			if (username === user.username && tripcode === user.tripcode){
+				return false;
+			}
+		}*/
 		
 		var uniqId = uuid();
 		var newUser = new User(username, tripcode, uniqId, avatar);
@@ -80,6 +86,30 @@ class UserManager {
 	}
 
 	getUser(id){
+		if (id === "test1"){
+			return {
+				"id":"test1",
+				"username":"testUser1",
+				"tripcode":"mockup",
+				"avatar":"4",
+				"pendingGameId":null,
+				"gamePlayer":null
+			};
+
+		}
+
+		if (id === "test2"){
+			return {
+				"id":"test2",
+				"username":"testUser2",
+				"tripcode":"mockup2",
+				"avatar":"1",
+				"pendingGameId":null,
+				"gamePlayer":null
+			};
+
+		}
+
 		return this.users[id];
 	}
 }

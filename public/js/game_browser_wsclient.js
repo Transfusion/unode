@@ -84,6 +84,7 @@ define(['wsclient_messages', 'game_browser_render_utils'], function(wsclient_mes
                     delete client_this.wsSynchronousCallbacks[msg.syncId];
 
                     func(msg);
+                    return
                 }
 
                 switch(msg.type){
@@ -91,6 +92,7 @@ define(['wsclient_messages', 'game_browser_render_utils'], function(wsclient_mes
                         client_this.missedHeartbeats = 0;
                         break;
 
+                    // TODO: make game browser updates appear asynchronously.
                     case (wsclient_messages.OUTGOING_MESSAGE_TYPE.PENDING_GAMES_LIST):
                         // game_browser_render_utils.renderPendingGamesList(msg.games);
                         break;

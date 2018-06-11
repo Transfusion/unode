@@ -23,7 +23,7 @@ loadAssetsState.prototype = {
             // add all the numbered cards
             for (let [key, color] of Object.entries(this.game.data.client_card.CARD_COLORS)){
                 this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.REGULAR, color, number),
-                    'card_sprites/default?'+createQueryString({
+                    'card_sprites/default?' + createQueryString({
                         'type': this.game.data.client_card.CARD_TYPES.REGULAR,
                         'color': color,
                         'number': number
@@ -31,17 +31,65 @@ loadAssetsState.prototype = {
             }
         }
 
+        for (let [key, color] of Object.entries(this.game.data.client_card.CARD_COLORS)){
+            this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.REVERSE, color),
+                'card_sprites/default?' + createQueryString({
+                    'type': this.game.data.client_card.CARD_TYPES.REVERSE,
+                    'color': color
+                }));
 
-            // for (var i = 0; i < 100000; i++){
-            //     this.load.image('testCard', '/card_sprites/default?type=back_alt'); 
-            // }
-        // })
-        
+            this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.SKIP, color),
+                'card_sprites/default?' + createQueryString({
+                    'type': this.game.data.client_card.CARD_TYPES.SKIP,
+                    'color': color
+                }));
+
+            this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.DRAW_2, color),
+                'card_sprites/default?' + createQueryString({
+                    'type': this.game.data.client_card.CARD_TYPES.DRAW_2,
+                    'color': color
+                }));
+        }
+
+        this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.WILD),
+                'card_sprites/default?' + createQueryString({
+                    'type': this.game.data.client_card.CARD_TYPES.WILD
+                }));
+
+        this.load.image(this.game.data.client_card.getCardSpriteName(this.game.data.client_card.CARD_TYPES.DRAW_4),
+                'card_sprites/default?' + createQueryString({
+                    'type': this.game.data.client_card.CARD_TYPES.DRAW_4
+                }));
+
+
+        this.load.image('call_uno_btn', '/misc_sprites/call_uno.png');
+        this.load.image('call_out_btn', '/misc_sprites/call_out.png');
+
+        this.load.image('fullscreen_toggle', '/misc_sprites/fullscreen-toggle.png');        
+        this.load.image('transparent_100x100', '/misc_sprites/transparent_100x100.png');
+
+        // load all the player avatars
+        var state_this = this;
+        getAvatarsInfo().then(function(result){
+            for (let [key, obj] of Object.entries(result)){
+                // console.log([key, obj])
+                state_this.load.image(obj, getAvatarsURL() + '/' + key);
+            }
+        });
+
     },
+
     create: function() {
         // this.game.state.start('establishServerConn');
+        this.game.state.start('mockupState');
+
         // Establish connection with the game server, game_wsclient will trigger the lobby.
-        this.game.data.initWSClient();
+        /*$('#lobbyModal').modal({
+            keyboard: false,
+            backdrop: 'static',
+            show: true
+        });
+        this.game.data.initWSClient();*/
     },
 
     update: function() {

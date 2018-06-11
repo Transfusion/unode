@@ -14,7 +14,7 @@ function listAllAvatars(req, res){
 
 function sendAvatar(req, res){
 	// console.log(req.params);
-	res.sendFile(path.resolve(config.app.avatars_dir, "avatar-" + req.params['avatarId'] + '.svg' ));
+	res.sendFile(path.resolve(config.app.avatars_dir, "avatar-" + req.params['avatarId'] + '.png' ));
 }
 
 module.exports.listAllAvatars = listAllAvatars;

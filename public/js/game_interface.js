@@ -4,10 +4,10 @@
 //     update: update 
 // }
 
-require(['game_interface_wsclient', 'game_states/bootState', 'game_states/loadAssetsState', 'game_states/establishServerConnState',
+require(['game_interface_wsclient', 'game_states/bootState', 'game_states/loadAssetsState', 'game_states/inGameState', 'game_states/mockupState',
         'client_pojos/client_card'], 
         
-function(game_wsclient, bootState, loadAssetsState, establishServerConnState, client_card){
+function(game_wsclient, bootState, loadAssetsState, inGameState, mockupState, client_card){
 
     function initWSClient(){
         $.get('/api/ws_token').done(function(data){
@@ -27,7 +27,9 @@ function(game_wsclient, bootState, loadAssetsState, establishServerConnState, cl
     function populateStates(){
         window.game.state.add('boot', bootState);
         window.game.state.add('loadAssets', loadAssetsState);
-        window.game.state.add('establishServerConn', establishServerConnState);
+        // window.game.state.add('establishServerConn', establishServerConnState);
+        window.game.state.add('inGame', inGameState);
+        window.game.state.add('mockupState', mockupState);
     }
 
     function setGlobalVariables(){
@@ -43,11 +45,11 @@ function(game_wsclient, bootState, loadAssetsState, establishServerConnState, cl
             console.log('Game Interface DOM Ready');
             spaceBelowNavbar();
 
-            $('#lobbyModal').modal({
+            /*$('#lobbyModal').modal({
                 keyboard: false,
                 backdrop: 'static',
                 show: true
-            });
+            });*/
             
             getUserInfo().then(function(result){
                 window.userInfo = result;
@@ -61,16 +63,20 @@ function(game_wsclient, bootState, loadAssetsState, establishServerConnState, cl
                 // declared in game_lobby_render_modal.js
                 bindRulesetFormSubmit();
             })
-            initWSClient();
+            
+            // initWSClient();
 
             bindPendingGameLeaveBtn();
+            bindStartGameBtn();
+            
             // console.log(Phaser);
-            // window.game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
+            window.game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
                         
-            // populateStates();
-            // setGlobalVariables();
+            populateStates();
+            setGlobalVariables();
 
-            // game.state.start('boot');
+            game.state.start('boot');
+            // game.state.start('')
             // initWSClient();
         });
     });

@@ -34,13 +34,6 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
             }, HEARTBEAT_INTERVAL);
         }
 
-        /*amHost(client_this, cb){
-            var unqStr = uniqueString();
-            client_this.wsSynchronousCallbacks[unqStr] = function(msg){
-                cb(msg.isHost);
-            }
-        }*/
-
         sendSetGameRuleset(gameId, rulesetId, params_obj){
             this.ws.send(JSON.stringify(new wsclient_messages.ClientMessages.setGameRuleset(gameId, rulesetId, params_obj)));
         }
@@ -49,14 +42,9 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
             this.ws.send(JSON.stringify(new wsclient_messages.ClientMessages.leaveGameMessage()));
         }
 
-        sendStartGameMessage(){
-            this.ws.send(JSON.stringify(new wsclient_messages.ClientMessages.startGameMessage()));
+        sendStartGameMessage(pendingGameId){
+            this.ws.send(JSON.stringify(new wsclient_messages.ClientMessages.startGameMessage(pendingGameId)));
         }
-
-        /*sendAmHostMessage(cb){
-            var unqStr = uniqueString();
-
-        }*/
 
         _bindClientWSEvents(socket){
             var client_this = this;
@@ -85,7 +73,8 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
                         }
                     }
                 })
-                
+
+                hideReconnectingModal();
             }
 
             socket.onmessage = function(event){
@@ -96,6 +85,8 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
                     delete client_this.wsSynchronousCallbacks[msg.syncId];
 
                     func(msg);
+
+                    return
                 }
 
                 switch(msg.type){
@@ -114,14 +105,19 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
                         break;
 
                     case (wsclient_messages.OUTGOING_MESSAGE_TYPE.PENDING_GAME_READY_START_STATUS):
-                        if (msg.ready){
-                            client_this.amHost(client_this, function(isHost){
-                                if (isHost){
-                                    
+                        var unqStr = uniqueString();
+                        // send a pending_game_state message, check if we are the host
+                        getUserInfo().then(function(result){
+                            client_this.wsSynchronousCallbacks[unqStr] = function(cb_msg){
+                                if (cb_msg.host === result.id && msg.ready){
+                                    setStartGameBtnEnabled(true);
                                 }
-                            })
-                        }
-
+                                else {
+                                    setStartGameBtnEnabled(false);    
+                                }
+                            };
+                            client_this.ws.send(JSON.stringify(new wsclient_messages.ClientMessages.getPendingGameState(result.pendingGameId, unqStr)));
+                        });
                         break;
                     
                     case (wsclient_messages.OUTGOING_MESSAGE_TYPE.JOIN_PENDING_GAME_SUCCESS):
@@ -148,7 +144,32 @@ define(['wsclient_messages', 'game_lobby_render_modal'], function(wsclient_messa
                     case (wsclient_messages.OUTGOING_MESSAGE_TYPE.PENDING_GAME_DESTROYED):
                         window.location.href = '/';
                         break;
+
+                    case (wsclient_messages.OUTGOING_MESSAGE_TYPE.PENDING_GAME_TIMEOUT):
+                        renderPendingGameTimeout(msg);
+                        break;
+
+
+
+                    case (wsclient_messages.OUTGOING_MESSAGE_TYPE.GAME_START):
+                        hideLobbyModal();
+
+                        // https://photonstorm.github.io/phaser-ce/Phaser.StateManager.html#start
+                        /*var phaserGameState = window.game.state.getCurrentState();
+                        console.log(phaserGameState.key);
+                        console.assert(phaserGameState.key == 'inGame');
+                        phaserGameState.testRender();*/
+                        break;
+
+                    case (wsclient_messages.OUTGOING_MESSAGE_TYPE.USER_GAME_STATE):
+                        window.game.state.start('inGame', true, false, msg);
+                        break;
                 }
+            }
+
+            socket.onclose = function(event){
+                showReconnectingModal();
+                setTimeout(client_this._preInit, RECONNECT_WAIT_INTERVAL);
             }
         }
         
